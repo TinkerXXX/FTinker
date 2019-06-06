@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'dart:io';
 import 'package:umeng_uapp/umeng_uapp.dart';
+
+import 'package:toast/toast.dart';
 
 import 'common/tinker.dart';
 import 'common/app_config.dart';
@@ -8,6 +9,7 @@ import 'common/app_launch.dart';
 
 void main() => runApp(MyApp());
 
+/// app入口
 class MyApp extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -17,41 +19,32 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  String result = "????";
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+//    Tinker.initContext(this.context);
     _initUmengAnalytics();
+//    _test();
   }
 
+  void _test() async {
+    Map data = await Tinker.ajax(
+      "/api/vip/findOpenStatus",
+      values: {
+        "a": 1,
+      },
+    );
+    print(data["rows"][0]["openStatus"]);
+  }
+
+  ///初始化友盟统计
   void _initUmengAnalytics() async {
-    if (Platform.isAndroid) {
-      result = await UmengUapp.init(
-        AppConfig.UMENG_ANDROID_APP_KEY,
-      );
-    } else if (Platform.isIOS) {
-      result = await UmengUapp.init(
-        AppConfig.UMENG_IOS_APP_KEY,
-      );
-    }
-
-    setState(() {
-      result = result;
-    });
-
-    print(" ============ $result");
+    await UmengUapp.init(AppConfig.UMENG_IOS_APP_KEY);
   }
 
   @override
   Widget build(BuildContext context) {
-//    return MaterialApp(
-//      home: Center(
-//        child: Text(" ====== $result"),
-//      ),
-//    );
-
     return MaterialApp(
       title: AppConfig.APP_NAME,
       theme: Tinker.getThemeData(),

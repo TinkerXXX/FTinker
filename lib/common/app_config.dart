@@ -13,9 +13,23 @@ class AppConfig {
   ///启动页图片地址
   static const APP_LAUNCH_IMAGE = "image/welcome.png";
 
+  ///友盟配置
   static const UMENG_ANDROID_APP_KEY = "5b4ef081f29d9868b9000189";
   static const UMENG_IOS_APP_KEY = "5b4ef081f29d9868b9000189";
   static const UMENG_CHANNEL = "Umeng";
+
+  ///ajax配置
+  ///请求超时
+  static const AJAX_TIMEOUT = 30 * 1000;
+
+  ///服务器地址
+  static const AJAX_SERVER_API = "http://api.jiashilan.com/";
+
+  ///ajax get请求
+  static const AJAX_METHOD_GET = "GET";
+
+  ///ajax post请求
+  static const AJAX_METHOD_POST = "POST";
 
   ///
   ///

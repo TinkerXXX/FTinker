@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:dio/dio.dart';
+import 'dart:convert';
+import 'package:toast/toast.dart';
 
 import '../pages/main/index.dart';
 import '../pages/message//index.dart';
@@ -13,6 +16,57 @@ class Tinker {
   ///
   static ThemeData getThemeData() {
     return ThemeData();
+  }
+
+  static final Dio _dio = Dio(BaseOptions(
+    connectTimeout: AppConfig.AJAX_TIMEOUT,
+    receiveTimeout: AppConfig.AJAX_TIMEOUT,
+    baseUrl: AppConfig.AJAX_SERVER_API,
+  ));
+
+//  static BuildContext _buildContext;
+//
+//  static void initContext(BuildContext buildContext) {
+//    _buildContext = buildContext;
+//  }
+
+  static void toast(
+    BuildContext context,
+    String msg,
+  ) {
+    OverlayState overlayState = Overlay.of(context);
+  }
+
+  ///网络请求
+  static Future<Map> ajax(
+    String url, {
+    method: AppConfig.AJAX_METHOD_GET,
+    values,
+  }) async {
+    print({
+      "url": url,
+      "method": method,
+      "values": values,
+    });
+    Response response;
+    if (method == AppConfig.AJAX_METHOD_GET) {
+      response = await _dio.get(
+        url,
+        queryParameters: values ??= {},
+      );
+    } else {
+      response = await _dio.post(
+        url,
+        queryParameters: values ??= {},
+      );
+    }
+//    Tinker.toast();
+    final _json = json.decode(response.data);
+    if (response.statusCode == 200 && _json["statusCode"] == "200") {
+      return _json;
+    } else {
+//      Tinker.toast();
+    }
   }
 
   ///
