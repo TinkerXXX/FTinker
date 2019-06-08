@@ -42,6 +42,7 @@ class MainIndexState extends State<MainIndex>
   @override
   void initState() {
     super.initState();
+    Tinker.toast(super.context, "123");
     _tabController = TabController(
       length: _tabbarTitle.length,
       vsync: this,

@@ -23,7 +23,7 @@ class MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-//    Tinker.initContext(this.context);
+
     _initUmengAnalytics();
 //    _test();
   }

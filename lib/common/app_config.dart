@@ -22,6 +22,12 @@ class AppConfig {
   ///请求超时
   static const AJAX_TIMEOUT = 30 * 1000;
 
+  ///是否开启ajax日志
+  static const AJAX_LOG = true;
+
+  ///ajax返回的状态字段key
+  static const AJAX_STATUS_NAME = "statusCode";
+
   ///服务器地址
   static const AJAX_SERVER_API = "http://api.jiashilan.com/";
 
