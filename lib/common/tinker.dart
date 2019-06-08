@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:dio/dio.dart';
@@ -9,6 +11,7 @@ import '../pages/message//index.dart';
 import '../pages/shoucang//index.dart';
 import '../pages/user//index.dart';
 import 'app_config.dart';
+import 'package:image_picker/image_picker.dart';
 
 class Tinker {
   ///
@@ -31,18 +34,18 @@ class Tinker {
 //  }
 
   static void toast(
-    BuildContext context,
-    String msg,
-  ) {
+      BuildContext context,
+      String msg,
+      ) {
     OverlayState overlayState = Overlay.of(context);
   }
 
   ///网络请求
   static Future<Map> ajax(
-    String url, {
-    method: AppConfig.AJAX_METHOD_GET,
-    values,
-  }) async {
+      String url, {
+        method: AppConfig.AJAX_METHOD_GET,
+        values,
+      }) async {
     print({
       "url": url,
       "method": method,
@@ -97,6 +100,33 @@ class Tinker {
       scale: 0.8,
     );
   }
+
+
+  //图片选择器，callback参数为data是返回的图片地址集合，类型为List<File>
+  static Widget Select_Image_picker({
+    Key key,
+    @required double Image_height, //添加的图片的高度,
+    @required double Image_width, //添加的图片的宽度,
+    @required double count, //可添加的图片的数量,
+    @required Widget Click_Image_file, //添加图片的点击按钮图,
+    @required double spacing, //图片的左右间距,
+    @required double line_count,//每行图片的数量
+    @required double runSpacing, //图片的上下间距,
+    @required Function callback, //回调函数,
+  }){
+    return Container(
+      child: Image_picker(
+        count: count,
+        Img_width: Image_width,
+        Img_height: Image_height,
+        Image_file: Click_Image_file,
+        spacing: spacing,
+        runSpacing: runSpacing,
+        callback: callback,
+        line_count: line_count,
+      ),
+    );
+  }
 }
 
 class TinkerScaffold extends StatefulWidget {
@@ -136,10 +166,10 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
           : _createBottonNavigationBar(),
       floatingActionButton: AppConfig.IS_BOTTOM_FLOAT_ICON
           ? FloatingActionButton(
-              onPressed: () => {},
-              child: AppConfig.BOTTOM_TAB_BAR_FLOAT_ICON,
-              backgroundColor: AppConfig.BOTTOM_TAB_BAR_COLOR_SELECT,
-            )
+        onPressed: () => {},
+        child: AppConfig.BOTTOM_TAB_BAR_FLOAT_ICON,
+        backgroundColor: AppConfig.BOTTOM_TAB_BAR_COLOR_SELECT,
+      )
           : null,
       floatingActionButtonLocation: AppConfig.IS_BOTTOM_FLOAT_ICON
           ? FloatingActionButtonLocation.centerDocked
@@ -220,8 +250,8 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
       _bottomAppBarItemList.add(
         InkWell(
           onTap: () => {
-                _switchTab(i),
-              },
+            _switchTab(i),
+          },
           borderRadius: BorderRadius.all(Radius.circular(100)),
           child: AspectRatio(
             aspectRatio: 1,
@@ -237,15 +267,15 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
                 children: <Widget>[
                   i == _currentIndex
                       ? Image.asset(
-                          AppConfig.BOTTOM_TAB_BAR_IMAGE_SELECT[i],
-                          width: AppConfig.BOTTOM_TAB_BAR_IMAGE_WIDTH,
-                          height: AppConfig.BOTTOM_TAB_BAR_IMAGE_HEIGHT,
-                        )
+                    AppConfig.BOTTOM_TAB_BAR_IMAGE_SELECT[i],
+                    width: AppConfig.BOTTOM_TAB_BAR_IMAGE_WIDTH,
+                    height: AppConfig.BOTTOM_TAB_BAR_IMAGE_HEIGHT,
+                  )
                       : Image.asset(
-                          AppConfig.BOTTOM_TAB_BAR_IMAGE[i],
-                          width: AppConfig.BOTTOM_TAB_BAR_IMAGE_WIDTH,
-                          height: AppConfig.BOTTOM_TAB_BAR_IMAGE_HEIGHT,
-                        ),
+                    AppConfig.BOTTOM_TAB_BAR_IMAGE[i],
+                    width: AppConfig.BOTTOM_TAB_BAR_IMAGE_WIDTH,
+                    height: AppConfig.BOTTOM_TAB_BAR_IMAGE_HEIGHT,
+                  ),
                   Text(
                     AppConfig.BOTTOM_TAB_BAR_TITLE[i],
                     style: TextStyle(
@@ -267,8 +297,8 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
         _bottomAppBarItemList.add(
           GestureDetector(
             onTap: () => {
-                  _switchTab(i),
-                },
+              _switchTab(i),
+            },
             child: AspectRatio(
               aspectRatio: 1,
               child: Container(
@@ -318,5 +348,210 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
       ..add(MainIndex())
       ..add(ShoucangIndex())
       ..add(UserIndex());
+  }
+}
+
+class Image_picker extends StatefulWidget {
+  @override
+//  Drag({Key key, this.imgList}) : super(key: key);
+//  final List<File> imgList;   // 用来储存传递过来的值
+  final double Img_width; //图片宽度
+  final double count; //可添加图片的数量
+  final Widget Image_file; //添加图片的按钮图
+  final double Img_height; //图片的高度
+  final double spacing;//图片的左右间隔
+  final double runSpacing;//图片的上下间隔
+  final double line_count;//一行图片的数量
+  final Function callback; //回调函数
+  State<StatefulWidget> createState() {
+    return Select_Image_pickerState();
+  }
+
+  Image_picker({
+    Key key,
+    this.Img_width,
+    this.Img_height,
+    this.count,
+    this.spacing,
+    this.runSpacing,
+    this.Image_file,
+    this.callback,
+    this.line_count
+  }) : super(key: key);
+}
+
+class Select_Image_pickerState extends State<Image_picker> {
+  @override
+  List imgList = new List<File>();
+  List getImg() {
+    return imgList;
+  }
+
+  Widget build(BuildContext context) {
+//    imgList=widget.imgList;
+    // TODO: implement build
+    return new Container(
+      child: img(),
+    );
+  }
+
+//显示图片
+  Widget img() {
+    List<Widget> tiles = []; //先建一个数组用于存放循环生成的widget
+    Widget content; //单独一个widget组件，用于返回需要生成的内容widget
+    List<Widget> imgs = [];
+    var img;
+    for (var i = 0; i < imgList.length; i++) {
+      img = imgList[i];
+      var d = imgList[i].path;
+      tiles.add(
+        new LongPressDraggable(
+          data: imgList[i],
+          child: new DragTarget(onWillAccept: (data) {
+            print("data = $data onWillAccept");
+            return data != null;
+          }, onLeave: (data) {
+            print("data = $data onLeave");
+          }, onAccept: (data) {
+            var bj;
+            print("data = $data img=$img onAccept");
+            setState(() {
+              for (var i = 0; i < imgList.length; i++) {
+                if (data == imgList[i]) {
+                  bj = i;
+                }
+              }
+//                    imgList.remove(0);
+//                    imgList.insert(i+2,data);
+              img = imgList[i];
+              imgList[i] = data;
+              imgList[bj] = img;
+
+              print("data = $data img=$img onAccept");
+            });
+          }, builder: (context, data, rejectedData) {
+            if((i+1)%widget.line_count==0){
+              return Container(
+                child: Image.file(
+                  imgList[i],
+                  height: widget.Img_height,
+                  width: widget.Img_width,
+                  fit: BoxFit.fill,
+                ),
+                margin: EdgeInsets.fromLTRB(0, 0, 0, widget.runSpacing),
+              );
+            }else{
+              return Container(
+                child: Image.file(
+                  imgList[i],
+                  height: widget.Img_height,
+                  width: widget.Img_width,
+                  fit: BoxFit.fill,
+                ),
+                margin: EdgeInsets.fromLTRB(0, 0, widget.spacing, widget.runSpacing),
+              );
+            }
+
+          }),
+          feedback: Image.file(
+            img,
+            height: widget.Img_height,
+            width: widget.Img_width,
+            fit: BoxFit.fill,
+          ),
+        ),
+      );
+    }
+
+    if (imgList.length < widget.count) {
+      tiles.add(
+        new Container(
+          child: new InkWell(
+              child: widget.Image_file,
+              onTap: () {
+                showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return new Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          new ListTile(
+                            leading: AppConfig.Image_picker_icon1,
+                            title: new Text(AppConfig.Image_picker_name1),
+                            onTap: () async {
+                              _takePhoto();
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                          new ListTile(
+                            leading: AppConfig.Image_picker_icon2,
+                            title: new Text(AppConfig.Image_picker_name2),
+                            onTap: () async {
+                              _openGallery();
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
+                      );
+                    });
+              }),
+        ),
+      );
+    }
+
+    Widget row;
+    List<Widget> rows=[];
+    for(var i=0;i<tiles.length;i++){
+      List<Widget> items=[];
+      if(i%widget.line_count==0){
+        for(var j=0;j<widget.line_count&&i<tiles.length;j++){
+          items.add(tiles[i]);
+          i++;
+        }
+        row=new Row(
+
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: items,
+        );
+      }
+      i--;
+      rows.add(row);
+    }
+    content=new Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children:rows,
+    );
+//    content = new Container(
+//      child: new Wrap(
+//        children: tiles,
+//        spacing: widget.spacing,
+//        runSpacing: widget.runSpacing,
+//      ),
+//      margin: EdgeInsets.fromLTRB(10, 0, 10, 0),
+//    );
+    if (imgList.length != 0) {
+      widget.callback(imgList);
+    }
+    return content;
+  }
+
+  /*拍照*/
+  Future _takePhoto() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.camera);
+    if (image != null) {
+      setState(() {
+        imgList.add(image);
+      });
+    }
+  }
+
+  /*相册*/
+  Future _openGallery() async {
+    var image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        imgList.add(image);
+      });
+    }
   }
 }

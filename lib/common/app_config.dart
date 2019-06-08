@@ -93,4 +93,19 @@ class AppConfig {
   ///
   ///
   ///
+  ///图片选择器配置
+  //点击的选项一
+  static const String Image_picker_name1="相机";
+
+  //点击的选项一图片
+  static const Image_picker_icon1 = Icon(
+    Icons.photo_camera,
+  );
+
+  //点击的选项二
+  static const String Image_picker_name2="相册";
+  //点击的选项二图片
+  static const Image_picker_icon2 = Icon(
+    Icons.photo_library,
+  );
 }
