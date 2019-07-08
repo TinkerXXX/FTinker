@@ -5,6 +5,7 @@ import '../pages/main/index.dart';
 import '../pages/message//index.dart';
 import '../pages/shoucang//index.dart';
 import '../pages/user//index.dart';
+import '../pages/edit//index.dart';
 import 'app_config.dart';
 
 class Tinker {
@@ -65,9 +66,13 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _initBottomTabBarList();
+
+    ///创建底部导航
+    AppConfig.IS_BOTTOM_FLOAT_ICON
+        ? _initBottomAppVarItemList()
+        : _initBottomTabBarList();
+
     _initScreenList();
-    _initBottomAppVarItemList();
     _initPageController();
     _initPageView();
   }
@@ -82,7 +87,7 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
           : _createBottonNavigationBar(),
       floatingActionButton: AppConfig.IS_BOTTOM_FLOAT_ICON
           ? FloatingActionButton(
-              onPressed: () => {},
+              onPressed: () => {_pressFloatButton()},
               child: AppConfig.BOTTOM_TAB_BAR_FLOAT_ICON,
               backgroundColor: AppConfig.BOTTOM_TAB_BAR_COLOR_SELECT,
             )
@@ -93,6 +98,21 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
     );
   }
 
+  ///@TODO 嵌入按钮点击事件
+  _pressFloatButton() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => Container(
+              decoration:
+                  BoxDecoration(color: Color.fromARGB(0xff, 0xff, 0xff, 0xff)),
+              child: EditIndex(),
+            ),
+      ),
+    );
+  }
+
+  ///@TODO 底部导航点击事件
   _switchTab(index) {
     setState(() {
       _currentIndex = index;
@@ -181,17 +201,13 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  i == _currentIndex
-                      ? Image.asset(
-                          AppConfig.BOTTOM_TAB_BAR_IMAGE_SELECT[i],
-                          width: AppConfig.BOTTOM_TAB_BAR_IMAGE_WIDTH,
-                          height: AppConfig.BOTTOM_TAB_BAR_IMAGE_HEIGHT,
-                        )
-                      : Image.asset(
-                          AppConfig.BOTTOM_TAB_BAR_IMAGE[i],
-                          width: AppConfig.BOTTOM_TAB_BAR_IMAGE_WIDTH,
-                          height: AppConfig.BOTTOM_TAB_BAR_IMAGE_HEIGHT,
-                        ),
+                  Image.asset(
+                    i == _currentIndex
+                        ? AppConfig.BOTTOM_TAB_BAR_IMAGE_SELECT[i]
+                        : AppConfig.BOTTOM_TAB_BAR_IMAGE[i],
+                    width: AppConfig.BOTTOM_TAB_BAR_IMAGE_WIDTH,
+                    height: AppConfig.BOTTOM_TAB_BAR_IMAGE_HEIGHT,
+                  ),
                   Text(
                     AppConfig.BOTTOM_TAB_BAR_TITLE[i],
                     style: TextStyle(

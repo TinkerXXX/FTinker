@@ -17,8 +17,6 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  String result = "????";
-
   @override
   void initState() {
     // TODO: implement initState
@@ -26,32 +24,15 @@ class MyAppState extends State<MyApp> {
     _initUmengAnalytics();
   }
 
-  void _initUmengAnalytics() async {
-    if (Platform.isAndroid) {
-      result = await UmengUapp.init(
-        AppConfig.UMENG_ANDROID_APP_KEY,
-      );
-    } else if (Platform.isIOS) {
-      result = await UmengUapp.init(
-        AppConfig.UMENG_IOS_APP_KEY,
-      );
-    }
-
-    setState(() {
-      result = result;
-    });
-
-    print(" ============ $result");
+  /// @TODO 初始化友盟统计
+  void _initUmengAnalytics() {
+    UmengUapp.init(Platform.isAndroid
+        ? AppConfig.UMENG_ANDROID_APP_KEY
+        : AppConfig.UMENG_IOS_APP_KEY);
   }
 
   @override
   Widget build(BuildContext context) {
-//    return MaterialApp(
-//      home: Center(
-//        child: Text(" ====== $result"),
-//      ),
-//    );
-
     return MaterialApp(
       title: AppConfig.APP_NAME,
       theme: Tinker.getThemeData(),

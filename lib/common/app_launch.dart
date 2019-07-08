@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'tinker.dart';
 import 'app_config.dart';
 
+///@TODO APP欢迎页入口
 class TinkerLaunch extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -41,6 +42,7 @@ class TinkerLaunchState extends State<TinkerLaunch>
                     () => {
                           Navigator.of(context).pushAndRemoveUntil(
                             PageRouteBuilder(
+                              transitionDuration: Duration(milliseconds: 3000),
                               pageBuilder: (
                                 ctx,
                                 animation1,
@@ -64,7 +66,6 @@ class TinkerLaunchState extends State<TinkerLaunch>
                                   child: child,
                                 );
                               },
-                              transitionDuration: Duration(milliseconds: 3000),
                             ),
                             (route) => route == null,
                           ),
