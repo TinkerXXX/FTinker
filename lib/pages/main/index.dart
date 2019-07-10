@@ -31,9 +31,6 @@ class MainIndexState extends State<MainIndex>
 
   int _tabBarIndex = 0;
 
-  PageView _indexPageView;
-  PageController _indexPageController;
-
   @override
   bool get wantKeepAlive {
     return true;

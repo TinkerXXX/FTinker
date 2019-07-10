@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:umeng_uapp/umeng_uapp.dart';
 
+import 'common/router.dart';
 import 'common/tinker.dart';
 import 'common/app_config.dart';
 import 'common/app_launch.dart';
@@ -36,6 +37,7 @@ class MyAppState extends State<MyApp> {
     return MaterialApp(
       title: AppConfig.APP_NAME,
       theme: Tinker.getThemeData(),
+      routes: Router,
       home: TinkerLaunch(),
       debugShowCheckedModeBanner: false,
     );

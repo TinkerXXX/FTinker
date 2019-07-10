@@ -99,17 +99,9 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
   }
 
   ///@TODO 嵌入按钮点击事件
-  _pressFloatButton() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => Container(
-              decoration:
-                  BoxDecoration(color: Color.fromARGB(0xff, 0xff, 0xff, 0xff)),
-              child: EditIndex(),
-            ),
-      ),
-    );
+  _pressFloatButton() async {
+    dynamic result = await Navigator.pushNamed(context, "/edit");
+    print(" ------------------ $result");
   }
 
   ///@TODO 底部导航点击事件
@@ -125,6 +117,7 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
     );
   }
 
+  ///@TODO 创建普通底部导航
   BottomAppBar _createBottonAppBar() {
     return BottomAppBar(
       child: Container(
@@ -144,6 +137,7 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
     );
   }
 
+  ///@TODO 创建底部凸起导航
   BottomNavigationBar _createBottonNavigationBar() {
     return BottomNavigationBar(
       currentIndex: _currentIndex,
@@ -160,7 +154,7 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
     );
   }
 
-  ///初始化pagecontroller
+  ///@TODO 初始化pagecontroller
   void _initPageController() {
     _pageController = PageController(
       initialPage: _currentIndex,
@@ -168,7 +162,7 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
     );
   }
 
-  ///初始化pageviwe
+  ///@TODO 初始化pageviwe
   void _initPageView() {
     _pageView = PageView(
       controller: _pageController,
@@ -179,15 +173,15 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
     );
   }
 
-  ///初始化底部导航栏，突起按钮样式
+  ///@TODO 初始化底部导航栏，突起按钮样式
   void _initBottomAppVarItemList() {
     _bottomAppBarItemList = List<Widget>();
     for (var i = 0; i < AppConfig.BOTTOM_TAB_BAR_TITLE.length; i++) {
       _bottomAppBarItemList.add(
         InkWell(
           onTap: () => {
-                _switchTab(i),
-              },
+            _switchTab(i),
+          },
           borderRadius: BorderRadius.all(Radius.circular(100)),
           child: AspectRatio(
             aspectRatio: 1,
@@ -229,8 +223,8 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
         _bottomAppBarItemList.add(
           GestureDetector(
             onTap: () => {
-                  _switchTab(i),
-                },
+              _switchTab(i),
+            },
             child: AspectRatio(
               aspectRatio: 1,
               child: Container(
@@ -252,7 +246,7 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
     }
   }
 
-  //初始化底部导航栏，无突起按钮
+  ///@TODO 初始化底部导航栏，无突起按钮
   void _initBottomTabBarList() {
     for (var i = 0; i < AppConfig.BOTTOM_TAB_BAR_TITLE.length; i++) {
       _itemList.add(BottomNavigationBarItem(
@@ -273,7 +267,7 @@ class TinkerScaffoldState extends State<TinkerScaffold> {
     }
   }
 
-  ///初始化页面路由
+  ///@TODO 初始化页面路由
   void _initScreenList() {
     _screenList
       ..add(MessageIndex())
