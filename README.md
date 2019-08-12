@@ -1,16 +1,24 @@
-# my_flutter
+# FTinker
 
-A new Flutter application.
+基于flutter兼容web、android、ios的开发框架
 
-## Getting Started
+## 框架
 
-This project is a starting point for a Flutter application.
+FTinker包含了以下框架
 
-A few resources to get you started if this is your first Flutter project:
+- [redux](https://github.com/johnpryan/redux.dart)
+- [redux_thunk](https://github.com/brianegan/redux_thunk)
+- [rxdart](https://github.com/ReactiveX/rxdart)
+- [http](https://github.com/dart-lang/http)
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+##目录结构
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+- lib/common/tinker_framework 框架相关内容，需要引入该文件
+- lib/common/global.dart 用于存储项目全局变量
+- lib/common/tinker/ 框架的具体实现
+- lib/page/ 项目的具体页面
+- lib/redux/ 用于生成action，修改store值，并通知ui更新
+
+##开源协议
+
+[MIT](https://github.com/TinkerXXX/FTinker/LICENSE)
