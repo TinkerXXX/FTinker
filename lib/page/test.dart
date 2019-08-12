@@ -11,7 +11,7 @@ class Test extends TinkerStatefulWidget {
 
 class TestState extends TinkerState<Test> {
   @override
-  List markNeedsBuildKeys() {
+  List<String> markNeedsBuildKeys() {
     // TODO: implement markNeedsBuildKeys
     return ["number"];
   }

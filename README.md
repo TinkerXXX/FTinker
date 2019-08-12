@@ -19,6 +19,8 @@ FTinker包含了以下框架
 - lib/page/ 项目的具体页面
 - lib/redux/ 用于生成action，修改store值，并通知ui更新
 
+
+
 ## 开源协议
 
 [MIT](https://github.com/TinkerXXX/FTinker/LICENSE)

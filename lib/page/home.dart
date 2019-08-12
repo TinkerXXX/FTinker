@@ -20,7 +20,7 @@ class HomeState extends TinkerState {
   }
 
   @override
-  List markNeedsBuildKeys() {
+  List<String> markNeedsBuildKeys() {
     // TODO: implement rebuildReduxKeys
     return ["number"];
   }

@@ -11,7 +11,7 @@ abstract class TinkerState<T extends TinkerStatefulWidget> extends State<T> {
   ///
   /// 申明一个List，如果action的data的keys在该List中，则markNeedsBuild
   ///
-  List markNeedsBuildKeys();
+  List<String> markNeedsBuildKeys();
 
   ///
   ///封装了store.dispatch
